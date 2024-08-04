@@ -4,7 +4,7 @@ import { AnchorStudentIntroProgram } from "../target/types/anchor_student_intro_
 import { Program } from "@coral-xyz/anchor";
 import { expect } from "chai";
 
-describe("anchor-studen-intro-program", () => {
+describe("anchor-student-intro-program", () => {
   // Configure the client to use the local cluster.
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
@@ -37,7 +37,9 @@ describe("anchor-studen-intro-program", () => {
   it("Student introduction is updated", async () => {
     const newIntroduction = "I am the worst player in the world!!!";
 
-    const tx = await program.methods.updateIntro(newIntroduction).rpc();
+    const tx = await program.methods
+      .updateIntro(studentDemo.name, newIntroduction)
+      .rpc();
 
     const account = await program.account.studentAccountState.fetch(studentPDA);
     expect(studentDemo.name === account.name);

@@ -21,7 +21,11 @@ pub mod anchor_student_intro_program {
         Ok(())
     }
 
-    pub fn update_intro(ctx: Context<UpdateIntro>, introduction: String) -> Result<()> {
+    pub fn update_intro(
+        ctx: Context<UpdateIntro>,
+        _name: String,
+        introduction: String,
+    ) -> Result<()> {
         msg!("Updating Student Account");
         msg!("Introduction: {}", introduction);
 
@@ -54,13 +58,13 @@ pub struct AddStudent<'info> {
 }
 
 #[derive(Accounts)]
-#[instruction(introduction: String)]
+#[instruction(name: String, introduction: String)]
 pub struct UpdateIntro<'info> {
     #[account(
             mut,
-            seeds = [student.name.as_bytes(), initializer.key().as_ref()],
+            seeds = [name.as_bytes(), initializer.key().as_ref()],
             bump,
-            realloc = StudentAccountState::INIT_SPACE + student.name.len() + introduction.len(),
+            realloc = StudentAccountState::INIT_SPACE + name.len() + introduction.len(),
             realloc::payer = initializer,
             realloc::zero = true
         )]
