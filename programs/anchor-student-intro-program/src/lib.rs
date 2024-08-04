@@ -54,13 +54,13 @@ pub struct AddStudent<'info> {
 }
 
 #[derive(Accounts)]
-#[instruction(name: String, introduction: String)]
+#[instruction(introduction: String)]
 pub struct UpdateIntro<'info> {
     #[account(
             mut,
-            seeds = [name.as_bytes(), initializer.key().as_ref()],
+            seeds = [student.name.as_bytes(), initializer.key().as_ref()],
             bump,
-            realloc = StudentAccountState::INIT_SPACE + name.len() + introduction.len(),
+            realloc = StudentAccountState::INIT_SPACE + student.name.len() + introduction.len(),
             realloc::payer = initializer,
             realloc::zero = true
         )]
